@@ -4,7 +4,7 @@ import 'package:flutter_find_locations/page/favorites_page.dart';
 import 'package:flutter_find_locations/page/main_page.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({Key? key}) : super(key: key);
+  MainDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,12 @@ class MainDrawer extends StatelessWidget {
             child: Center(child: Text("Find Locations")),
           ),
           InkWell(
-            onTap: () => {
+            onTap: () {
+              Navigator.pop(context);
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => MainPage())
-              )
+              );
             },
             child: Row(
               children: const [
@@ -35,11 +36,12 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () => {
+            onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => FavoritesPage())
-              )
+              );
             },
             child: Row(
               children: const [

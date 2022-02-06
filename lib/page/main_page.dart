@@ -5,6 +5,7 @@ import 'package:flutter_find_locations/api/location_api.dart';
 import 'package:flutter_find_locations/bloc/locations_bloc/location_bloc.dart';
 import 'package:flutter_find_locations/bloc/locations_bloc/location_event.dart';
 import 'package:flutter_find_locations/bloc/locations_bloc/location_state.dart';
+import 'package:flutter_find_locations/database/location_database.dart';
 import 'package:flutter_find_locations/model/place.dart';
 import 'package:flutter_find_locations/page/detail_page.dart';
 import 'package:flutter_find_locations/view/main_drawer.dart';
@@ -23,6 +24,7 @@ class _MainPageState extends State<MainPage> {
   @override
   initState() {
     locationBloc = BlocProvider.of(context);
+    locationBloc.add(LocationCheckFavoritedItems());
   }
 
   @override
@@ -79,7 +81,31 @@ class _MainPageState extends State<MainPage> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Flexible(child: Text(place.displayName)),
-                                  Text("${place.lat.substring(0,4)} - ${place.lng.substring(0,4)}")
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("${place.lat.substring(0,4)} - ${place.lng.substring(0,4)}"),
+                                      place.favorited ?
+                                          IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                place.favorited = false;
+                                                LocationDatabase().unFavoritePlace(place);
+                                              });
+                                            },
+                                            icon: Icon(Icons.star, color: Colors.yellow,),
+                                          ) :
+                                          IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                place.favorited = true;
+                                                LocationDatabase().favoriteItem(place);
+                                              });
+                                            },
+                                            icon: Icon(Icons.star, color: Colors.grey),
+                                          )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),

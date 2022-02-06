@@ -1,3 +1,4 @@
+import 'package:flutter_find_locations/database/location_database.dart';
 import 'package:flutter_find_locations/model/place.dart' as model;
 import 'package:osm_nominatim/osm_nominatim.dart';
 
@@ -14,9 +15,10 @@ class LocationApi{
       nameDetails: true,
     );
     result.forEach((element) {
-      model.Place place = model.Place(place_id: element.placeId.toString(), lat: element.lat.toString(), lng: element.lon.toString(), displayName: element.displayName);
+      model.Place place = model.Place(place_id: element.placeId.toString(), lat: element.lat.toString(), lng: element.lon.toString(), displayName: element.displayName, favorited: false);
       list.add(place);
     });
+    list = await LocationDatabase().checkFavoritedItems(list);
     return list;
   }
 

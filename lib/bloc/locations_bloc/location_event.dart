@@ -7,3 +7,5 @@ class LocationGetItems extends LocationEvent {
 
   LocationGetItems({this.query, this.country});
 }
+
+class LocationCheckFavoritedItems extends LocationEvent{}
